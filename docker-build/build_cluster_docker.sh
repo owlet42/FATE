@@ -16,7 +16,6 @@ source .env
 
 buildBase() {
   echo "START PACKAGING"
-  package
   [ -f ${source_code_dir}/docker-build/docker/base/pip-packages-fate-1.1.tar.gz ] && rm ${source_code_dir}/docker-build/docker/base/pip-packages-fate-1.1.tar.gz
   [ -f ${source_code_dir}/docker-build/docker/base/requirements.txt ] && rm ${source_code_dir}/docker-build/docker/base/requirements.txt
   ln ${source_code_dir}/cluster-deploy/packages/pip-packages-fate-1.1.tar.gz ${source_code_dir}/docker-build/docker/base/pip-packages-fate-1.1.tar.gz
@@ -27,7 +26,8 @@ buildBase() {
   docker build -f docker/base/Dockerfile -t ${PREFIX}/base-image:${BASE_TAG} ${source_code_dir}/docker-build/docker/base
 
   rm ${source_code_dir}/docker-build/docker/base/pip-packages-fate-1.1.tar.gz
-
+  rm ${source_code_dir}/docker-build/docker/base/requirements.txt
+  
   echo "FINISH BUILDING BASE IMAGE"
 }
 
@@ -58,6 +58,7 @@ buildModule() {
   cp -r ${source_code_dir}/fate_flow ${source_code_dir}/docker-build/docker/modules/python/fate_flow
   cp -r ${source_code_dir}/arch ${source_code_dir}/docker-build/docker/modules/python/arch
   cp -r ${source_code_dir}/federatedml ${source_code_dir}/docker-build/docker/modules/python/federatedml
+  cp -r ${source_code_dir}/examples ${source_code_dir}/docker-build/docker/modules/python/examples
   ln ${source_code_dir}/cluster-deploy/packages/eggroll-api-1.1.tar.gz ${source_code_dir}/docker-build/docker/modules/python/eggroll-api-1.1.tar.gz
   cp -r ${source_code_dir}/fate_flow ${source_code_dir}/docker-build/docker/modules/egg/fate_flow
   cp -r ${source_code_dir}/arch ${source_code_dir}/docker-build/docker/modules/egg/arch
@@ -67,6 +68,9 @@ buildModule() {
   ln ${source_code_dir}/cluster-deploy/packages/eggroll-egg-1.1.tar.gz ${source_code_dir}/docker-build/docker/modules/egg/eggroll-egg-1.1.tar.gz
   ln ${source_code_dir}/cluster-deploy/packages/eggroll-storage-service-cxx-1.1.tar.gz ${source_code_dir}/docker-build/docker/modules/egg/eggroll-storage-service-cxx-1.1.tar.gz
   ln ${source_code_dir}/cluster-deploy/packages/third_party_eggrollv1.tar.gz ${source_code_dir}/docker-build/docker/modules/egg/third_party_eggrollv1.tar.gz
+
+  # TODO tar -xzvf ***.tar.gz 
+  # TODO build conf
 
   for module in "federation" "proxy" "roll" "meta-service" "fateboard" "egg" "python"
   do
@@ -92,6 +96,7 @@ buildModule() {
   rm -r ${source_code_dir}/docker-build/docker/modules/python/fate_flow
   rm -r ${source_code_dir}/docker-build/docker/modules/python/arch
   rm -r ${source_code_dir}/docker-build/docker/modules/python/federatedml
+  rm -r ${source_code_dir}/docker-build/docker/modules/python/examples
   rm ${source_code_dir}/docker-build/docker/modules/python/eggroll-api-1.1.tar.gz
   echo ""
 }
@@ -153,17 +158,31 @@ package() {
 
   cd ${eggroll_source_code_dir}
   cd framework/egg/target
-  tar czf eggroll-egg-1.1.tar.gz eggroll-egg-1.1.jar lib/
+  # conf
+  mkdir conf
+  cp  ${source_code_dir}/eggroll/framework/egg/src/main/resources/egg.properties ./conf
+  cp  ${source_code_dir}/eggroll/framework/egg/src/main/resources/log4j2.properties ./conf
+  cp  ${source_code_dir}/eggroll/framework/egg/src/main/resources/applicationContext-egg.xml ./conf
+
+  tar czf eggroll-egg-1.1.tar.gz eggroll-egg-1.1.jar lib/ conf/
   mv eggroll-egg-1.1.tar.gz ${packages_dir}/
 
   cd ${eggroll_source_code_dir}
   cd framework/meta-service/target
-  tar czf eggroll-meta-service-1.1.tar.gz eggroll-meta-service-1.1.jar lib/
+  mkdir conf
+  cp  ${source_code_dir}/eggroll/framework/meta-service/src/main/resources/meta-service.properties ./conf
+  cp  ${source_code_dir}/eggroll/framework/meta-service/src/main/resources/log4j2.properties ./conf
+  cp  ${source_code_dir}/eggroll/framework/meta-service/src/main/resources/applicationContext-meta-service.xml ./conf
+  tar czf eggroll-meta-service-1.1.tar.gz eggroll-meta-service-1.1.jar lib/ conf/
   mv eggroll-meta-service-1.1.tar.gz ${packages_dir}/
 
   cd ${eggroll_source_code_dir}
   cd framework/roll/target
-  tar czf eggroll-roll-1.1.tar.gz eggroll-roll-1.1.jar lib/
+  mkdir conf
+  cp  ${source_code_dir}/eggroll/framework/roll/src/main/resources/roll.properties ./conf
+  cp  ${source_code_dir}/eggroll/framework/roll/src/main/resources/log4j2.properties ./conf
+  cp  ${source_code_dir}/eggroll/framework/roll/src/main/resources/applicationContext-roll.xml ./conf
+  tar czf eggroll-roll-1.1.tar.gz eggroll-roll-1.1.jar lib/ conf/
   mv eggroll-roll-1.1.tar.gz ${packages_dir}/
 
   cd ${eggroll_source_code_dir}
@@ -210,11 +229,20 @@ package() {
   cp ${source_code_dir}/fateboard/target/fateboard-1.1.jar ${packages_dir}/
 
   cd ${source_code_dir}/arch/driver/federation/target
-  tar czf fate-federation-1.1.tar.gz fate-federation-1.1.jar lib/
+  mkdir conf
+  cp  ${source_code_dir}/arch/driver/federation/src/main/resources/federation.properties ./conf
+  cp  ${source_code_dir}/arch/driver/federation/src/main/resources/log4j2.properties ./conf
+  cp  ${source_code_dir}/arch/driver/federation/src/main/resources/applicationContext-federation.xml ./conf
+  tar czf fate-federation-1.1.tar.gz fate-federation-1.1.jar lib/ conf/
   mv fate-federation-1.1.tar.gz ${packages_dir}/
 
   cd ${source_code_dir}/arch/networking/proxy/target
-  tar czf fate-proxy-1.1.tar.gz fate-proxy-1.1.jar lib/
+  mkdir conf
+  cp ${source_code_dir}/arch/networking/proxy/src/main/resources/applicationContext-proxy.xml ./conf
+  cp ${source_code_dir}/arch/networking/proxy/src/main/resources/log4j2.properties ./conf
+  cp ${source_code_dir}/arch/networking/proxy/src/main/resources/proxy.properties ./conf
+  cp ${source_code_dir}/arch/networking/proxy/src/main/resources/route_tables/route_table.json ./conf
+  tar czf fate-proxy-1.1.tar.gz fate-proxy-1.1.jar lib/ conf/
   mv fate-proxy-1.1.tar.gz ${packages_dir}/
 
   echo "[INFO] Packaging base module"
@@ -239,6 +267,9 @@ pushImage() {
 
 while [ "$1" != "" ]; do
     case $1 in
+         package)
+                 package
+                 ;;
          base)
                  buildBase
                  ;;
@@ -246,6 +277,7 @@ while [ "$1" != "" ]; do
                  buildModule
                  ;;
          all)
+                 package
                  buildBase
                  buildModule
                  ;;
