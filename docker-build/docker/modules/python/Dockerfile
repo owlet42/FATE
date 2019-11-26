@@ -7,6 +7,7 @@ RUN mkdir -p /data/projects/fate
 COPY  fate_flow /data/projects/fate/python/fate_flow
 COPY  arch /data/projects/fate/python/arch
 COPY  federatedml /data/projects/fate/python/federatedml
+COPY  examples /data/projects/fate/python/examples
 COPY  eggroll-api-1.1.tar.gz /data/projects/fate/python
 
 RUN cd /data/projects/fate/python && \
