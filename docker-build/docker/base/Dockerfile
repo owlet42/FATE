@@ -5,7 +5,7 @@ ENV miniconda3_dir /data/projects/python/miniconda3
 ENV venv_dir /data/projects/python/venv
 
 
-COPY pip-packages-fate-${python_version}.tar.gz /data/projects/python/
+COPY pip-packages-fate*.tar.gz /data/projects/python/
 COPY requirements.txt /data/projects/python/
 
 RUN yum -y install gcc gcc-c++ make openssl-devel supervisor gmp-devel mpfr-devel libmpc-devel libaio numactl autoconf automake libtool libffi-devel snappy snappy-devel zlib zlib-devel bzip2 bzip2-devel lz4-devel libasan lsof &&\
@@ -13,7 +13,7 @@ RUN yum -y install gcc gcc-c++ make openssl-devel supervisor gmp-devel mpfr-deve
     curl https://repo.continuum.io/miniconda/Miniconda3-4.5.4-Linux-x86_64.sh > /data/projects/python/Miniconda3-4.5.4-Linux-x86_64.sh && \
     \
     sh ./Miniconda3-*-Linux-x86_64.sh -b -p ${miniconda3_dir} &&\
-    rm -f ./Miniconda3-*-Linux-x86_64.sh
+    rm -f ./Miniconda3-*-Linux-x86_64.sh; \
     tar -xvf pip-packages-fate-${python_version}.tar.gz && \
     rm pip-packages-fate-${python_version}.tar.gz && \
     ${miniconda3_dir}/bin/pip install virtualenv -f ./pip-packages-fate-${python_version} --no-index &&\

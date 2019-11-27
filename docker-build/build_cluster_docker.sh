@@ -13,7 +13,10 @@ source_code_dir=$(cd `dirname ${WORKINGDIR}`; pwd)
 
 # fetch fate-python image
 source .env
-
+packages_dir=${source_code_dir}/cluster-deploy/packages
+mkdir -p ${packages_dir}
+source ../cluster-deploy/scripts/default_configurations.sh
+  
 buildBase() {
   echo "START BUILDING BASE IMAGE"
   [ -f ${source_code_dir}/docker-build/docker/base/pip-packages-fate-${python_version}.tar.gz ] && rm ${source_code_dir}/docker-build/docker/base/pip-packages-fate-${python_version}.tar.gz
@@ -98,11 +101,7 @@ buildModule() {
 
 package() {
   echo "START PACKAGING"
-  source .env
-  packages_dir=${source_code_dir}/cluster-deploy/packages
-  mkdir -p ${packages_dir}
-  source ../cluster-deploy/scripts/default_configurations.sh
-
+  
   cd ${source_code_dir}
   eggroll_git_url=`grep -A 3 '"eggroll"' .gitmodules | grep 'url' | awk -F '= ' '{print $2}'`
   eggroll_git_branch=`grep -A 3 '"eggroll"' .gitmodules | grep 'branch' | awk -F '= ' '{print $2}'`
