@@ -1,12 +1,11 @@
 FROM mcr.microsoft.com/java/jre:8u192-zulu-alpine
 
-RUN mkdir -p /data/projects/fate
-COPY fate-federation-1.1.tar.gz /data/projects/fate/federation/fate-federation-1.1.tar.gz
+WORKDIR /data/projects/fate/federation
 
-RUN cd /data/projects/fate/federation/ && \
-    tar -xzf fate-federation-1.1.tar.gz && \
-    rm fate-federation-1.1.tar.gz && \
-    ln -s fate-federation-1.1.jar fate-federation.jar
+ADD fate-federation-*.tar.gz /data/projects/fate/federation/
+
+RUN ln -s fate-federation-${federation_version}.jar fate-federation.jar
+
 EXPOSE 9394
 
 CMD cd /data/projects/fate/federation && \
