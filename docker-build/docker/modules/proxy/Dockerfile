@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/java/jre:8u192-zulu-alpine
 
-WORKDI /data/projects/fate
+WORKDIR /data/projects/fate/proxy/
 
 COPY fate-proxy-*.tar.gz /data/projects/fate/proxy/
 

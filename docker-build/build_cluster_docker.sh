@@ -28,7 +28,7 @@ buildBase() {
 
   docker build -f docker/base/Dockerfile -t ${PREFIX}/base-image:${BASE_TAG} ${source_code_dir}/docker-build/docker/base
 
-  rm ${source_code_dir}/docker-build/docker/base/pip-packages-fate-${version}.tar.gz
+  rm ${source_code_dir}/docker-build/docker/base/pip-packages-fate-${python_version}.tar.gz
 
   echo "FINISH BUILDING BASE IMAGE"
 }
@@ -38,7 +38,7 @@ buildModule() {
   [ -f ${source_code_dir}/docker-build/docker/modules/proxy/fate-proxy-${version}.tar.gz ] && rm ${source_code_dir}/docker-build/docker/modules/proxy/fate-proxy-${version}.tar.gz
   [ -f ${source_code_dir}/docker-build/docker/modules/roll/eggroll-roll-${version}.tar.gz ] && rm ${source_code_dir}/docker-build/docker/modules/roll/eggroll-roll-${version}.tar.gz
   [ -f ${source_code_dir}/docker-build/docker/modules/meta-service/eggroll-meta-service-${version}.tar.gz ] && rm ${source_code_dir}/docker-build/docker/modules/meta-service/eggroll-meta-service-${version}.tar.gz
-  [ -f ${source_code_dir}/docker-build/docker/modules/fateboard/fateboard-${fateboard_version}.jar ] && rm ${source_code_dir}/docker-build/docker/modules/fateboard/fateboard-${version}.jar
+  [ -f ${source_code_dir}/docker-build/docker/modules/fateboard/fateboard-${fateboard_version}.jar ] && rm ${source_code_dir}/docker-build/docker/modules/fateboard/fateboard-${fateboard_version}.jar
   [ -f ${source_code_dir}/docker-build/docker/modules/egg/eggroll-api-${version}.tar.gz ] && rm ${source_code_dir}/docker-build/docker/modules/egg/eggroll-api-${version}.tar.gz
   [ -f ${source_code_dir}/docker-build/docker/modules/egg/eggroll-computing-${version}.tar.gz ] && rm ${source_code_dir}/docker-build/docker/modules/egg/eggroll-computing-${version}.tar.gz
   [ -f ${source_code_dir}/docker-build/docker/modules/egg/eggroll-egg-${version}.tar.gz ] && rm ${source_code_dir}/docker-build/docker/modules/egg/eggroll-egg-${version}.tar.gz
