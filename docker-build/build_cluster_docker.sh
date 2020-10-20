@@ -30,6 +30,8 @@ echo "[INFO] Package output dir is "${package_dir}
 echo "[INFO] image prefix is: "${PREFIX}
 echo "[INFO] image tag is: "${TAG}
 echo "[INFO] bash image tag is: "${BASE_TAG}
+rm -rf ${package_dir} ${package_dir}-${version_tag}".tar.gz"
+
 
 eggroll_git_url=`grep -A 3 '"eggroll"' .gitmodules | grep 'url' | awk -F '= ' '{print $2}'`
 eggroll_git_branch=`grep -A 3 '"eggroll"' .gitmodules | grep 'branch' | awk -F '= ' '{print $2}'`
@@ -46,13 +48,9 @@ package() {
 
   # package python
   echo "[INFO] Package fate start"
-  cp -r arch/conf ${package_dir}/python/arch/
-  cp -r arch/api ${package_dir}/python/arch/
-  cp -r arch/transfer_variables ${package_dir}/python/arch/
-  cp -r arch/standalone ${package_dir}/python/arch/
-  cp fate.env requirements.txt RELEASE.md ${package_dir}/python/
-  cp -r examples federatedml fate_flow ${package_dir}/python/
-  cp -r bin  ${package_dir}/
+  cp fate.env RELEASE.md ${package_dir}/
+  cp -r bin conf python ${package_dir}/
+  cp -r examples ${package_dir}/
   echo "[INFO] Package fate done"
   echo "[INFO] Package fateboard start"
 
