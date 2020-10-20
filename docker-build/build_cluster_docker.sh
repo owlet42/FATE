@@ -130,7 +130,7 @@ package() {
 
 buildBase() {
   [ -f ${source_dir}/docker-build/docker/base/requirements.txt ] && rm ${source_dir}/docker-build/docker/base/requirements.txt
-  ln ${source_dir}/requirements.txt ${source_dir}/docker-build/docker/base/requirements.txt
+  ln ${source_dir}/python/requirements.txt ${source_dir}/docker-build/docker/base/requirements.txt
   echo "START BUILDING BASE IMAGE"
   cd ${WORKINGDIR}
 
