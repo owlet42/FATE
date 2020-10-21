@@ -9,7 +9,7 @@ ARG version
 
 COPY  python/ ./
 COPY  eggroll /data/projects/fate/eggroll
-COPY  example/ ./
+COPY  examples/ ./
 
 RUN echo "source /data/projects/python/venv/bin/activate" >> ~/.bashrc && \
     mkdir -p ./fml_agent/data
