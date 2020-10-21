@@ -23,7 +23,7 @@ RUN set -eux && \
     
 RUN set -eux && \
     cd /data/projects/python/  && \
-    curl -L https://webank-ai-1251170195.cos.ap-guangzhou.myqcloud.com/python-env-${version}-release.tar.gz -o pip-packages-fate-${version}.tar.gz && \
+    curl -L https://webank-ai-1251170195.cos.ap-guangzhou.myqcloud.com/python-env-1.4.5-release.tar.gz -o pip-packages-fate-${version}.tar.gz && \
     tar -xvf pip-packages-fate-${version}.tar.gz && \
     rm pip-packages-fate-${version}.tar.gz && \
     set -eux && \

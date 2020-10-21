@@ -30,7 +30,6 @@ echo "[INFO] Package output dir is "${package_dir}
 echo "[INFO] image prefix is: "${PREFIX}
 echo "[INFO] image tag is: "${TAG}
 echo "[INFO] bash image tag is: "${BASE_TAG}
-rm -rf ${package_dir} ${package_dir}-${version_tag}".tar.gz"
 
 
 eggroll_git_url=`grep -A 3 '"eggroll"' .gitmodules | grep 'url' | awk -F '= ' '{print $2}'`
