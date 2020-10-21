@@ -143,8 +143,10 @@ buildModule() {
   # handle python
   [ -d ${source_dir}/docker-build/docker/modules/python/python ] && rm -rf ${source_dir}/docker-build/docker/modules/python/python
   [ -d ${source_dir}/docker-build/docker/modules/python/eggroll ] && rm -rf ${source_dir}/docker-build/docker/modules/python/eggroll
+  [ -d ${source_dir}/docker-build/docker/modules/python/examples ] && rm -rf ${source_dir}/docker-build/docker/modules/python/examples
   cp -r ${package_dir}/python ${source_dir}/docker-build/docker/modules/python/python
   cp -r ${package_dir}/eggroll ${source_dir}/docker-build/docker/modules/python/eggroll
+  cp -r ${package_dir}/examples ${source_dir}/docker-build/docker/modules/python/examples
 
   # handle fateboard
   [ -d ${source_dir}/docker-build/docker/modules/fateboard/fateboard ] && rm -rf ${source_dir}/docker-build/docker/modules/fateboard/fateboard
