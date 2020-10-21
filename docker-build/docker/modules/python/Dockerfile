@@ -7,9 +7,9 @@ WORKDIR /data/projects/fate/python
 
 ARG version
 
-COPY  python/ ./
+COPY  python /data/projects/fate/python
 COPY  eggroll /data/projects/fate/eggroll
-COPY  examples/ ./
+COPY  examples /data/projects/fate/examples
 
 RUN echo "source /data/projects/python/venv/bin/activate" >> ~/.bashrc && \
     mkdir -p ./fml_agent/data
